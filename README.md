@@ -2,6 +2,10 @@
 
 A simple command-line scrobbler that submits your Apple Music listening history to Last.fm.
 
+## Human remark
+
+All the code, and the rest of this README, was written by Claude, with ChatGPT doing the Swift script. I just created this tool to solve a very particular issue (scrobble Last.fm's songs from Apple Music), so no refactoring will be done here in the foreseeable future.
+
 ## Features
 
 - ✅ Scrobbles tracks after 50% played (or 4 minutes, whichever comes first)
@@ -10,21 +14,55 @@ A simple command-line scrobbler that submits your Apple Music listening history 
 - ✅ Simple command-line interface
 - ✅ TypeScript implementation
 
-## Setup
+## Quick Installation
 
-### 1. Install Dependencies
+### Automated Installation (Recommended)
+
+Run the installer script to automatically set up the scrobbler as a macOS daemon that starts on boot:
+
+```bash
+./install.sh
+```
+
+The installer will:
+- ✅ Check Node.js version (requires 18.0.0+)
+- ✅ Install dependencies
+- ✅ Build the project
+- ✅ Set up macOS daemon service
+- ✅ Configure automatic startup
+
+After installation, follow the setup instructions to configure your Last.fm credentials.
+
+### Manual Installation
+
+If you prefer to install manually:
+
+#### 1. Check Requirements
+
+- Node.js 18.0.0 or higher
+- macOS (for Apple Music integration)
+
+#### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Get Last.fm API Credentials
+#### 3. Build Project
+
+```bash
+npm run build
+```
+
+## Setup
+
+### 1. Get Last.fm API Credentials
 
 1. Go to https://www.last.fm/api/account/create
 2. Create a new API application
 3. Note down your **API Key** and **API Secret**
 
-### 3. Configure Environment
+### 2. Configure Environment
 
 Copy the example environment file:
 
@@ -40,7 +78,7 @@ LASTFM_API_SECRET=your_api_secret_here
 LASTFM_SESSION_KEY=  # Leave empty for now
 ```
 
-### 4. Get Session Key
+### 3. Get Session Key
 
 Run the authentication helper:
 
@@ -58,7 +96,13 @@ Copy the session key to your `.env` file.
 
 ## Usage
 
-### Start the scrobbler
+### After Automated Installation
+
+The scrobbler runs automatically in the background as a macOS daemon. No need to manually start it!
+
+### Manual Start (Development)
+
+For development or manual testing:
 
 ```bash
 npm start
@@ -68,6 +112,27 @@ Or for development mode:
 
 ```bash
 npm run dev
+```
+
+### Service Management
+
+If you used the automated installer, you can manage the daemon service:
+
+```bash
+# Check if service is running
+launchctl list | grep com.apple-music-lastfm-scrobbler
+
+# View logs
+tail -f ~/Library/Logs/com.apple-music-lastfm-scrobbler.log
+
+# Stop service
+launchctl unload ~/Library/LaunchAgents/com.apple-music-lastfm-scrobbler.plist
+
+# Start service
+launchctl load ~/Library/LaunchAgents/com.apple-music-lastfm-scrobbler.plist
+
+# Uninstall service completely
+./uninstall.sh
 ```
 
 ### Grant Permissions

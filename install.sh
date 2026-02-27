@@ -80,6 +80,9 @@ if launchctl list | grep -q "$SERVICE_NAME"; then
     launchctl unload "$PLIST_PATH" 2>/dev/null || true
 fi
 
+# Create LaunchAgents directory if it doesn't exist
+mkdir -p "$HOME/Library/LaunchAgents"
+
 # Create launchd plist
 echo "📋 Creating launchd service..."
 cat > "$PLIST_PATH" << EOF

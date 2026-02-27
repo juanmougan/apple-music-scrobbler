@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
-    "dev": "ts-node src/index.ts",
-    "auth": "ts-node src/auth.ts"
+    "dev": "ts-node src/typescript/index.ts",
+    "auth": "ts-node src/typescript/auth.ts"
   },
   "keywords": ["lastfm", "scrobbler", "apple-music", "macos"],
   "author": "",
